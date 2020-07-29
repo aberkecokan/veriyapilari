@@ -1,0 +1,248 @@
+
+import java.util.Scanner;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author berke
+ */
+
+public class MinHeap { 
+	private int[] dizi; 
+	private int boyut; 
+	private int uzunluk; 
+
+	
+	public MinHeap(int uzunluk) 
+	{ 
+		this.uzunluk = uzunluk; 
+		this.boyut = 0; 
+		dizi = new int[this.uzunluk + 1]; 
+		
+	} 
+        
+        
+        private static final int ön = 1; 
+	
+
+	private int torun(int pos) 
+	{ 
+		return pos / 2; 
+	} 
+
+	
+	private int sol(int pos) 
+	{ 
+		return (2 * pos); 
+	} 
+
+
+	private int sag(int pos) 
+	{ 
+		return (2 * pos) + 1; 
+	} 
+
+	
+
+	private boolean yaprak(int pos) 
+	{ 
+		if (pos >= (boyut / 2) && pos <= boyut) { 
+			return true; 
+		} 
+		return false; 
+	} 
+
+	
+
+
+	private void degisim(int fpos, int spos) 
+	{ 
+		int tmp; 
+		tmp = dizi[fpos]; 
+		dizi[fpos] = dizi[spos]; 
+		dizi[spos] = tmp; 
+	} 
+
+	
+
+	private void minHeapify(int pos) 
+	{ 
+
+		
+
+
+		if (!isLeaf(pos)) { 
+			if (dizi[pos] > dizi[sol(pos)] 
+				|| dizi[pos] > dizi[sag(pos)]) { 
+
+				if (dizi[sol(pos)] < dizi[sag(pos)]) { 
+					degisim(pos, sol(pos)); 
+					minHeapify(sol(pos)); 
+				} 
+
+				
+				else { 
+					degisim(pos, sag(pos)); 
+					minHeapify(sag(pos)); 
+				} 
+			} 
+		} 
+	} 
+
+	
+
+	public void ekle(int element) 
+	{ 
+		if (boyut >= uzunluk) { 
+			return; 
+		} 
+		dizi[++boyut] = element; 
+		int current = boyut; 
+
+		while (dizi[current] < dizi[torun(current)]) { 
+			degisim(current, torun(current)); 
+			current = torun(current); 
+		} 
+	} 
+
+	public void yazdir() 
+	{ 
+		for (int i = 1; i <= boyut / 2; i++) { 
+			System.out.print(" Kök : " + dizi[i] 
+							+ " Sol Kökü : " + dizi[2 * i] 
+							+ " Sag Kökü :" + dizi[2 * i + 1]); 
+			System.out.println(); 
+		} 
+	} 
+
+	
+	public void minHeap() 
+	{ 
+		for (int pos = (boyut / 2); pos >= 1; pos--) { 
+			minHeapify(pos); 
+		} 
+	} 
+
+
+	public int silme() 
+	{ 
+		int popped = dizi[ön]; 
+		dizi[ön] = dizi[boyut--]; 
+	{ 
+		
+		minHeapify(ön); 
+		return popped; 
+	}
+        
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        static void MaxHeapify(int arr[], int i, int n) 
+    { 
+        int l = 2*i + 1; 
+        int r = 2*i + 2; 
+        int largest = i; 
+        if (l < n && arr[l] > arr[i]) 
+            largest = l; 
+        if (r < n && arr[r] > arr[largest]) 
+            largest = r; 
+        if (largest != i) 
+        { 
+        
+            int temp = arr[i]; 
+            arr[i] = arr[largest]; 
+            arr[largest] = temp; 
+            MaxHeapify(arr, largest, n); 
+        } 
+    } 
+   
+    
+    static void maxheapcevir(int arr[], int n) 
+    { 
+        
+        for (int i = (n-2)/2; i >= 0; --i) 
+            MaxHeapify(arr, i, n); 
+    } 
+   
+    
+    static void yazdir(int arr[], int size) 
+    { 
+        for (int i = 0; i < size; ++i) {
+            if(i==0){
+                System.out.println("kök"+arr[i]);
+            }
+          else if(i%2==0){
+                System.out.println("sag kökü"+arr[i]);
+            }else{
+                System.out.println("sol Kökü"+arr[i]);
+            }
+        }
+            
+    } 
+    
+    static boolean minHeapmi(int arr[], int i, int n) { 
+ 
+        if (i > (n - 2) / 2) { 
+            return true; 
+        } 
+  
+
+        if (arr[i] >= arr[2 * i + 1] && arr[i] >= arr[2 * i + 2] 
+                && minHeapmi(arr, 2 * i + 1, n) && minHeapmi(arr, 2 * i + 2, n)) { 
+            return true; 
+        } 
+  
+        return false; 
+    } 
+
+	// Driver code 
+	public static void main(String[] arg) 
+	{ 
+            Scanner k=new Scanner(System.in);
+            int dizi[]=new int[10];
+		System.out.println("Iste min Heap imiz"); 
+		MinHeap minHeap = new MinHeap(15); 
+                for(int i=0;i<8;i++){
+                    System.out.println("Eklemek istediginiz sayilari giriniz");
+                    
+                    dizi[i]=k.nextInt();
+                    minHeap.ekle(dizi[i]);
+                }
+	//	minHeap.ekle(3); 
+	//	minHeap.ekle(17); 
+	//	minHeap.ekle(10); 
+	//	minHeap.ekle(84); 
+	//	minHeap.ekle(19); 
+	//	minHeap.ekle(6); 
+	//	minHeap.ekle(22); 
+	//	minHeap.ekle(9); 
+              System.out.println(minHeap.silme()+"Silinen");
+              System.out.println(minHeap.silme()+"Silinen2");
+              System.out.println(minHeap.silme()+"silinen3");
+		minHeap.minHeap(); 
+                    maxheapcevir(dizi,8);
+                            ;
+                            yazdir(dizi,8);
+		minHeap.yazdir(); 
+         if (minHeapmi(dizi, 0, dizi.length-1)) { 
+            System.out.println("Min Heapdir"); 
+        } else { 
+            System.out.println("Min Heap degildir"); 
+        } 
+		
+	} 
+} 
+
